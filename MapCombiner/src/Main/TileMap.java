@@ -1,4 +1,4 @@
-package Main;
+package Main;//{{{
 
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
@@ -209,19 +209,51 @@ public class TileMap {
 		}
 	}
 
-	public void writeMap(){
-	try{
-		
-		
-		
-		
-			//bw.close();
+	//}}}
+	public void loadMap4(int parts){
+
+		numCols = 0;
+		numRows = 0;
+		int whichMap;
+		String tempLine = "";
+		try{
+			File newMap = new File("some.txt");
+			BufferedWriter bw = new BufferedWriter(new FileWriter(newMap));
+			BufferedReader br;
+			for(int i = 1; i < parts + 1; i++){
+				Random r = new Random();
+				whichMap = r.nextInt(amountOfPieces) + 1;	
+				InputStream in = getClass().getResourceAsStream("/text" + whichMap + ".txt");
+				br = new BufferedReader(new InputStreamReader(in));
+				numCols = numCols + Integer.parseInt(br.readLine());
+				numRows = Integer.parseInt(br.readLine());
+				if(i == parts - 1){
+					bw.write(numCols + "\r\n");
+					bw.write(numRows + "\r\n");
+				}
+				for(int j = 0; j < numRows; j++){
+					tempLine = br.readLine();
+					if(i == 1){
+						mapLines[j] = tempLine;
+					}else{
+						mapLines[j] += tempLine;
+					}
+				if(i == parts){
+				
+				bw.write(mapLines[j] + "\r\n");
+				}
+				//System.out.println(mapLines[j]);
+				//writeMap();
+				}
 			
-	}catch(Exception e){
-		e.printStackTrace();
+				
+			}
+			bw.close();
+			
+		}catch(Exception e){
+			e.printStackTrace();
 		}
 	}
-
 	
 	public int getTileSize() { return tileSize; }
 	public double getx() { return x; }

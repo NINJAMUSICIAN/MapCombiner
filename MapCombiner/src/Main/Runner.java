@@ -6,7 +6,7 @@ public class Runner {
 	
 	public static void main(String[] args){
 		tilemap = new TileMap(32);
-		tilemap.loadMap3();
+		tilemap.loadMap4(5);
 		//tilemap.writeMap();
 		
 	}
