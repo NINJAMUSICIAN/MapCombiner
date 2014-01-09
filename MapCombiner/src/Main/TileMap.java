@@ -1,11 +1,13 @@
 package Main;
 
-import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
+import java.util.Random;
 
 import javax.imageio.ImageIO;
 
@@ -24,7 +26,9 @@ public class TileMap {
 	private double tween;
 	
 	// map
+	private int amountOfPieces = 7;
 	private int[][] map;
+	private String[] mapLines = new String[20];
 	private int tileSize;
 	private int numRows;
 	private int numCols;
@@ -120,26 +124,104 @@ public class TileMap {
 	}
 	
 	public void loadMap2(){
-		
 		numCols = 0;
 		numRows = 0;
-		
+		String tempLine = "";	
 		try{
+			File newMap = new File("some.txt");
+			BufferedWriter bw = new BufferedWriter(new FileWriter(newMap));
+			BufferedReader br;
 			for(int i = 1; i < 4; i++){
 				InputStream in = getClass().getResourceAsStream("/text" + i + ".txt");
-				BufferedReader br = new BufferedReader(new InputStreamReader(in));
-				
+				br = new BufferedReader(new InputStreamReader(in));
 				numCols = numCols + Integer.parseInt(br.readLine());
-				numRows = numRows + Integer.parseInt(br.readLine());
-				System.out.println("cols" + numCols);
-				System.out.println("rows " + numRows);
+				numRows = Integer.parseInt(br.readLine());
+				if(i == 3){
+					bw.write(numCols + "\r\n");
+					bw.write(numRows + "\r\n");
+				}
+				for(int j = 0; j < numRows; j++){
+					tempLine = br.readLine();
+					if(i == 1){
+						mapLines[j] = tempLine;
+					}else{
+						mapLines[j] += tempLine;
+					}
+				if(i == 3){
 				
+				bw.write(mapLines[j] + "\r\n");
+				}
+				//System.out.println(mapLines[j]);
+				//writeMap();
+				}
+			
 				
 			}
+			bw.close();
+			
 		}catch(Exception e){
 			e.printStackTrace();
 		}
 	}
+	
+	public void loadMap3(){
+
+		numCols = 0;
+		numRows = 0;
+		int whichMap;
+		String tempLine = "";
+		try{
+			File newMap = new File("some.txt");
+			BufferedWriter bw = new BufferedWriter(new FileWriter(newMap));
+			BufferedReader br;
+			for(int i = 1; i < 4; i++){
+				Random r = new Random();
+				whichMap = r.nextInt(amountOfPieces) + 1;	
+				InputStream in = getClass().getResourceAsStream("/text" + whichMap + ".txt");
+				br = new BufferedReader(new InputStreamReader(in));
+				numCols = numCols + Integer.parseInt(br.readLine());
+				numRows = Integer.parseInt(br.readLine());
+				if(i == 3){
+					bw.write(numCols + "\r\n");
+					bw.write(numRows + "\r\n");
+				}
+				for(int j = 0; j < numRows; j++){
+					tempLine = br.readLine();
+					if(i == 1){
+						mapLines[j] = tempLine;
+					}else{
+						mapLines[j] += tempLine;
+					}
+				if(i == 3){
+				
+				bw.write(mapLines[j] + "\r\n");
+				}
+				//System.out.println(mapLines[j]);
+				//writeMap();
+				}
+			
+				
+			}
+			bw.close();
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+
+	public void writeMap(){
+	try{
+		
+		
+		
+		
+			//bw.close();
+			
+	}catch(Exception e){
+		e.printStackTrace();
+		}
+	}
+
 	
 	public int getTileSize() { return tileSize; }
 	public double getx() { return x; }
