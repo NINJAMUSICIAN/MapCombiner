@@ -1,4 +1,5 @@
-package Main;//{{{
+//{{{First stuff
+package Main;
 
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
@@ -208,8 +209,8 @@ public class TileMap {
 			e.printStackTrace();
 		}
 	}
-
-	//}}}
+//}}}
+//{{{ Newest LoadMap Method
 	public void loadMap4(int parts){
 
 		numCols = 0;
@@ -234,7 +235,7 @@ public class TileMap {
 				for(int j = 0; j < numRows; j++){
 					tempLine = br.readLine();
 					if(i == 1){
-						mapLines[j] = tempLine;
+						//mapLines[j] = tempLine;
 					}else{
 						mapLines[j] += tempLine;
 					}
@@ -254,7 +255,72 @@ public class TileMap {
 			e.printStackTrace();
 		}
 	}
-	
+//}}}	
+//{{{Make Beginning and Ending in Map
+
+	public void makeBeginning(){
+		numCols = 0;
+		numRows = 0;
+		String tempLine = "";
+		try{
+			File newMap = new File("some.txt");
+			BufferedWriter bw = new BufferedWriter(new FileWriter(newMap));
+			BufferedReader br;
+			
+			InputStream in = getClass().getResourceAsStream("/beginning.txt");
+			br = new BufferedReader(new InputStreamReader(in));
+			numCols = numCols + Integer.parseInt(br.readLine());
+			numRows = Integer.parseInt(br.readLine());
+			
+			for(int i = 0; i < numRows; i++){
+				tempLine = br.readLine();
+				mapLines[i] = tempLine;
+				
+			}
+			for(int i = 0; i < numRows; i++){
+				bw.write(mapLines[i]);
+			}
+			bw.close();
+		}catch(Exception e){
+			e.printStackTrace();
+	}			
+}
+
+	public void makeEnd(){
+		numCols = 0;
+		numRows = 0;
+		String tempLine = "";
+		try{
+			File newMap = new File("some.txt");
+			BufferedWriter bw = new BufferedWriter(new FileWriter(newMap));
+			BufferedReader br;
+			
+			InputStream in = getClass().getResourceAsStream("/end.txt");
+			br = new BufferedReader(new InputStreamReader(in));
+			numCols = numCols + Integer.parseInt(br.readLine());
+			numRows = Integer.parseInt(br.readLine());
+			
+			for(int i = 0; i < numRows; i++){
+				tempLine = br.readLine();
+				mapLines[i] += tempLine;
+				
+			}
+			for(int i = 0; i < numRows; i++){
+				if(i == 0){
+				bw.write(numCols + "\r\n");
+				bw.write(numRows + "\r\n");
+				}
+				bw.write(mapLines[i] + "\r\n");
+
+			}
+			bw.close();
+		}catch(Exception e){
+			e.printStackTrace();
+	}			
+}
+//}}}
+
+//{{{ getter and setters	
 	public int getTileSize() { return tileSize; }
 	public double getx() { return x; }
 	public double gety() { return y; }
@@ -278,7 +344,7 @@ public class TileMap {
 		rowOffset = (int)-this.y / tileSize;
 		
 	}
-	
+//}}}	
 	public void scroll(int p){
 		setPosition(x - 640, 0);
 	}
